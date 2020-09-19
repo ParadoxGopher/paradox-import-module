@@ -19,6 +19,19 @@ export async function CreateCompendium(title, type, name, pkg) {
     return compendium
 }
 
+export async function FindIn(compendiumId, ...names) {
+    let comp = game.packs.get(compendiumId)
+    if (!comp) {
+        log("compendium does not exist")
+        return
+    }
+
+    log(names)
+
+    let index = await comp.getIndex()
+    returnnames.filter(n => index.find(i => i.name === n))
+}
+
 export async function UpsertInto(compendiumId, entity) {
     let comp = game.packs.get(compendiumId)
     if (!comp) {
