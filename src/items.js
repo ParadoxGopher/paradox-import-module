@@ -35,6 +35,7 @@ async function OnRequest(event) {
     let response = {
         type: "",
         payload: false,
+        requestId: data.requestId,
     }
     switch (data.type) {
         case "spell-request":
