@@ -10,8 +10,8 @@ export default function init() {
 
     log(itemCompendii)
 
-    game.settings.register("paradox-import-module", "spell-compendium", {
-        name: "paradox-import-module.spell-compendium.name",
+    game.settings.register("paradox-importer-module", "spell-compendium", {
+        name: "paradox-importer-module.spell-compendium.name",
         hint: "compendium to store spells",
         scope: "world",
         config: true,
