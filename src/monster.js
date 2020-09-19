@@ -13,7 +13,8 @@ const RequestEventType = "paradox-import:request"
 const ResponseEventType = "paradox-import:response"
 
 export default function init() {
-    log("initializing monsters")
+	log("initializing monsters")
+
     // CreateCompendium(MonstersTitle, "Actor", MonsterCompendiumName, MonsterCompendiumPackage)
     CreateDirectory(MonstersTitle, "Actor")
 
@@ -29,7 +30,7 @@ async function OnMonsterRequest(event) {
     let dir = await CreateDirectory(MonstersTitle, "Actor")
     let exists = dir.children.some(d => d.content.some(m => m.name === data.payload))
     log("sending", exists)
-    document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify({ type: "monster-response", payload: exists }) }))
+    document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify({ type: "monster-response", payload: exists, requestId: data.requestId }) }))
 }
 
 async function OnIncomingMonster(event) {
@@ -60,7 +61,8 @@ async function UpsertMonster(newMonster) {
         return await targetDir.content.find(m => m.name === newMonster.name)
     } else {
         log("creating new monster", newMonster)
-        let created = await Actor.create(newMonster).then(() => {
+        await Actor.create(newMonster).then((created) => {
+			created.createEmbeddedEntity("OwnedItem", items)
             ui.notifications.info("[Monster] Created: " + newMonster.name)
         }).catch(e => {
             log("failed creating monster", e)
