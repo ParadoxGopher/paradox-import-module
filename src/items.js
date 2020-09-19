@@ -38,7 +38,7 @@ async function OnRequest(event) {
     }
     switch (data.type) {
         case "spell-request":
-            let comId = game.settings.get("paradox-import-module", "spell-compendium")
+            let comId = await game.settings.get("paradox-import-module", "spell-compendium")
             if (!comId || comId === "") {
                 ui.notifications.error("no spell compendium set")
                 log("spell-compendium is not set")
