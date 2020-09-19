@@ -11,7 +11,7 @@ const SRDItemCompendiumId = "dnd5e.items"
 const SpellTitle = "[dndbeyond] Spells"
 const SpellCompendiumName = "ddb.pi.spells"
 const SpellCompendiumPackage = "world"
-const SpellCompendiumId = SpellCompendiumPackage + "." + SpellCompendiumName
+const SpellCompendiumId = SpellCompendiumPackage + "." + SpellCompendiumPackage + "." + SpellCompendiumName
 const SRDSpellCompendiumId = "dnd5e.spells"
 
 const ItemEventType = "paradox-import:incoming:item"
@@ -22,7 +22,6 @@ const ResponseEventType = "paradox-import:response"
 export default function init() {
     log("initializing Items")
     CreateCompendium(ItemsTitle, "Item", ItemCompendiumName, ItemCompendiumPackage)
-    CreateCompendium(SpellTitle, "Item", SpellCompendiumName, SpellCompendiumPackage)
 
     document.addEventListener(ItemEventType, OnIncomingItem)
     document.addEventListener(ResponseEventType, OnRequest)
@@ -39,7 +38,14 @@ async function OnRequest(event) {
     }
     switch (data.type) {
         case "spell-request":
-            let spellIdx = await game.packs.get(SpellCompendiumId).getIndex()
+            let comId = game.settings.get("paradox-import-module", "spell-compendium")
+            if (!comId || comId === "") {
+                ui.notifications.error("no spell compendium set")
+                log("spell-compendium is not set")
+                return
+            }
+
+            let spellIdx = await game.packs.get(comId).getIndex()
             response.type = "spell-response"
             response.payload = spellIdx.some(s => s.name === data.payload)
             break
@@ -52,6 +58,8 @@ async function OnRequest(event) {
             log("unknown request on items")
             return
     }
+
+    log(response)
 
     document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
