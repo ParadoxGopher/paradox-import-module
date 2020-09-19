@@ -24,7 +24,7 @@ export default function init() {
     CreateCompendium(ItemsTitle, "Item", ItemCompendiumName, ItemCompendiumPackage)
 
     document.addEventListener(ItemEventType, OnIncomingItem)
-    document.addEventListener(ResponseEventType, OnRequest)
+    document.addEventListener(RequestEventType, OnRequest)
 }
 
 async function OnRequest(event) {
@@ -44,7 +44,6 @@ async function OnRequest(event) {
                 log("spell-compendium is not set")
                 return
             }
-
             let spellIdx = await game.packs.get(comId).getIndex()
             response.type = "spell-response"
             response.payload = spellIdx.some(s => s.name === data.payload)
