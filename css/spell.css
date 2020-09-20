@@ -1,0 +1,39 @@
+.ddb-statblock {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.ddb-statblock-item {
+    -webkit-flex: 25%;
+    -ms-flex: 25%;
+    flex: 25%;
+    padding: 10px;
+}
+
+.ddb-statblock-item-label {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.ddb-statblock-item-value {
+    font-size: 16px;
+}
+
+.detail-content .image {
+    display: none;
+}
+
+.details-aside {
+    width: 340px;
+    margin: 0 0 0 auto;
+}
+
+.details-aside .image {
+    display: none;
+}

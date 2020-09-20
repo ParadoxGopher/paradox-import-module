@@ -2,7 +2,7 @@
     "name": "paradox-importer-module",
     "title": "Paradox Importer: D&D Beyond Integration",
     "description": "import your unlocked content from DnDBeyond",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "minimumCoreVersion": "0.6.0",
     "compatibleCoreVersion": "0.7.0",
     "author": "Gerhard Wagner",
@@ -15,6 +15,9 @@
     ],
     "systems": [
         "dnd5e"
+    ],
+    "styles": [
+        "./css/spell.css"
     ],
     "esmodules": [
         "src/index.js"
