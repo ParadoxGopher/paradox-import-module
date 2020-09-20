@@ -68,7 +68,7 @@ async function OnIncomingItem(event) {
     let newItem = await Item.create(JSON.parse(event.detail), { temporary: true })
     switch (newItem.type) {
         case "spell":
-            UpsertInto(SpellCompendiumId, newItem)
+            UpsertInto(game.settings.get("paradox-importer-module", "spell-compendium"), newItem)
             break
         default:
             UpsertInto(ItemCompendiumId, newItem)
