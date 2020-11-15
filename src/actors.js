@@ -13,7 +13,7 @@ export default function init() {
 }
 
 async function OnActorRequest(event) {
-	let data = JSON.parse(event.data)
+	let data = JSON.parse(event.detail)
 	if (data.type !== "actor-request") return
 	log("got request", data)
 	let response = {
