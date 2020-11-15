@@ -24,24 +24,24 @@ async function OnRequest(event) {
 	}
 	switch (data.type) {
 		case "spell-request":
-			let comId = await game.settings.get("paradox-importer-module", "spell-compendium")
-			if (!comId || comId === "") {
+			let spellComId = await game.settings.get("paradox-importer-module", "spell-compendium")
+			if (!spellComId || spellComId === "") {
 				ui.notifications.error("no spell compendium set")
 				log("spell-compendium is not set")
 				return
 			}
-			let spellIdx = await game.packs.get(comId).getIndex()
+			let spellIdx = await game.packs.get(spellComId).getIndex()
 			response.type = "spell-response"
 			response.payload = spellIdx.some(s => s.name === data.payload)
 			break
 		case "item-request":
-			let comId = await game.settings.get("paradox-importer-module", "item-compendium")
-			if (!comId || comId === "") {
+			let itemComId = await game.settings.get("paradox-importer-module", "item-compendium")
+			if (!itemComId || itemComId === "") {
 				ui.notifications.error("no item compendium set")
 				log("item-compendium is not set")
 				return
 			}
-			let idx = await game.packs.get(comId).getIndex()
+			let idx = await game.packs.get(itemComId).getIndex()
 			response.type = "item-response"
 			response.payload = idx.some(i => i.name === data.payload)
 			break
