@@ -6,7 +6,7 @@ const RequestEventType = "paradox-import:request"
 const ResponseEventType = "paradox-import:response"
 
 export default function init() {
-	log("initiating Actors")
+	log("initiating Actor")
 
 	document.addEventListener(ActorsEventType, OnIncomingActor)
 	document.addEventListener(RequestEventType, OnActorRequest)
@@ -14,10 +14,10 @@ export default function init() {
 
 async function OnActorRequest(event) {
 	let data = JSON.parse(event.data)
-	if (data.type !== "actors-request") return
+	if (data.type !== "actor-request") return
 	log("got request", data)
 	let response = {
-		type: "actors-response",
+		type: "actor-response",
 		payload: false,
 		requestId: data.requestId,
 	}
