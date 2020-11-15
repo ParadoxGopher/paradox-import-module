@@ -1,11 +1,7 @@
 import { log } from "./utils/logger.js"
-import { CreateCompendium, UpsertInto } from "./utils/compendium.js"
 import { CreateDirectory } from "./utils/directory.js"
 
 const MonstersTitle = "[dndbeyond] Monsters"
-const MonsterCompendiumName = "ddb.pi.monsters"
-const MonsterCompendiumPackage = "world"
-const MonsterCompendiumId = MonsterCompendiumPackage + "." + MonsterCompendiumName
 
 const MonsterEventType = "paradox-import:incoming:monster"
 
@@ -13,9 +9,8 @@ const RequestEventType = "paradox-import:request"
 const ResponseEventType = "paradox-import:response"
 
 export default function init() {
-	log("initializing monsters")
+	log("initiating monsters")
 
-    // CreateCompendium(MonstersTitle, "Actor", MonsterCompendiumName, MonsterCompendiumPackage)
     CreateDirectory(MonstersTitle, "Actor")
 
     document.addEventListener(MonsterEventType, OnIncomingMonster)
@@ -37,7 +32,6 @@ async function OnIncomingMonster(event) {
     let newMonster = JSON.parse(event.detail)
     log("got monster from event", newMonster)
     await UpsertMonster(newMonster)
-    //await UpsertInto(MonsterCompendiumId, newMonster)
 }
 
 async function UpsertMonster(newMonster) {

@@ -29,7 +29,7 @@ export async function FindIn(compendiumId, ...names) {
     log(names)
 
     let index = await comp.getIndex()
-    returnnames.filter(n => index.find(i => i.name === n))
+    return names.filter(n => index.find(i => i.name === n))
 }
 
 export async function UpsertInto(compendiumId, entity) {
