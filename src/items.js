@@ -15,7 +15,7 @@ export default function init() {
 
 async function OnRequest(event) {
 	let data = JSON.parse(event.detail)
-	if (!data.type.match(/(spell-request|item-request)/)) return
+	if (!data.type.match(/(spell-request|item-request|feat-request)/)) return
 	log("got request", data)
 	let response = {
 		type: "",
@@ -23,6 +23,17 @@ async function OnRequest(event) {
 		requestId: data.requestId,
 	}
 	switch (data.type) {
+		case "feat-request":
+			let featComId = await game.settings.get("paradox-importer-module", "feat-compendium")
+			if (!featComId || featComId === "") {
+				ui.notifications.error("no feat compendium set")
+				log("feat-compendium is not set")
+				return
+			}
+			let featIdx = await game.packs.get(featComId).getIndex()
+			response.type = "feat-response"
+			response.payload = featIdx.some(s => s.name === data.payload)
+			break
 		case "spell-request":
 			let spellComId = await game.settings.get("paradox-importer-module", "spell-compendium")
 			if (!spellComId || spellComId === "") {
@@ -61,6 +72,9 @@ async function OnIncomingItem(event) {
 	switch (newItem.type) {
 		case "spell":
 			UpsertInto(game.settings.get("paradox-importer-module", "spell-compendium"), newItem)
+			break
+		case "feat":
+			UpsertInto(game.settings.get("paradox-importer-module", "feat-compendium"), newItem)
 			break
 		default:
 			UpsertInto(game.settings.get("paradox-importer-module", "item-compendium"), newItem)
