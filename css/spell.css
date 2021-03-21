@@ -61,6 +61,21 @@
 	font-family: Roboto, Helvetica, sans-serif;
 }
 
+.tag {
+	box-sizing: inherit; 
+	-webkit-tap-highlight-color: transparent; 
+	outline: 0px; 
+	border: 1px solid #cbc6c3; 
+	box-shadow: #dcd1c7 0px 0px 4px 0px inset; 
+	padding: 4px 8px; 
+	font-size: 9px; 
+	font-weight: bold; 
+	text-align: center; 
+	text-transform: uppercase; 
+	display: inline-block; 
+	margin: 0px 2px;
+}
+
 .label {
 	box-sizing: inherit; 
 	-webkit-tap-highlight-color: transparent; 
