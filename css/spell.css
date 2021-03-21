@@ -37,3 +37,32 @@
 .details-aside .image {
     display: none;
 }
+
+.detail-container-content.footer {
+	box-sizing: inherit; 
+	-webkit-tap-highlight-color: transparent; 
+	outline: 0px; 
+	display: flex; 
+	justify-content: space-between; 
+	align-items: baseline; 
+	flex-wrap: wrap; 
+	height: 50px;
+}
+
+.tags {
+	box-sizing: inherit; 
+	-webkit-tap-highlight-color: transparent; 
+	outline: 0px; 
+	font-size: 12px; 
+	display: flex; 
+	align-items: baseline; 
+	margin: 0px 10px 0px 0px; 
+	padding: 10px 0px; 
+	font-family: Roboto, Helvetica, sans-serif;
+}
+
+.label {
+	box-sizing: inherit; 
+	-webkit-tap-highlight-color: transparent; 
+	outline: 0px;
+}
