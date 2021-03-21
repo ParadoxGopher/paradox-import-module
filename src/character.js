@@ -26,11 +26,11 @@ async function OnRequest(event) {
 	if (!data.origin) return
 
 	let compName = game.settings.get("paradox-importer-module", "char-compendium-prefix") + " " + data.origin
-	let compId = game.packs.find(p => p.metadata.label === compName)
+	let comp = game.packs.find(p => p.metadata.label === compName)
 
-	if (compId) {
-		let featIdx = await game.packs.get(compId).getIndex()
-		response.payload = featIdx.some(s => s.name === data.payload)
+	if (comp) {
+		let compIdx = comp.getIndex()
+		response.payload = compIdx.some(s => s.name === data.payload)
 	}
 	
 	log(response)
