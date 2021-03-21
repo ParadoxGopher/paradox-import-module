@@ -39,4 +39,13 @@ export default function init() {
 		isSelect: true,
 		choices: itemCompendii,
 	})
+
+	game.settings.register("paradox-importer-module", "char-compendium-prefix", {
+		name: "Prefix for class/race features",
+		hint: "prefixes all compendiums for class and race features eg. [dndbeyond]",
+		scope: "world",
+		config: true,
+		type: String,
+		default: "[dndbeyond]"
+	})
 }
