@@ -51,11 +51,11 @@ async function OnIncomingChar(event) {
 	let compId = game.packs.find(p => p.metadata.label === compName)
 
 	if (!compId) {
-		await CreateCompendium(compName, "Item", "dndbeyond-"+itemOrigin, "pxg-magics")
+		await CreateCompendium(compName, "Item", "dndbeyond-"+itemOrigin, "pxg-magicks")
 		compId = game.packs.find(p => p.metadata.label === compName)
 	}
 
-	await UpsertInto(compId, newItem)
+	await UpsertInto(compId.collection, newItem)
 	
 	log(newItem)
 	// TODO: implement add to actor
