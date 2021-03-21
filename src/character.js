@@ -29,7 +29,7 @@ async function OnRequest(event) {
 	let comp = game.packs.find(p => p.metadata.label === compName)
 
 	if (comp) {
-		let compIdx = comp.getIndex()
+		let compIdx = await comp.getIndex()
 		response.payload = compIdx.some(s => s.name === data.payload)
 	}
 	
