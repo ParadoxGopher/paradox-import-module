@@ -49,7 +49,7 @@
 	height: 50px;
 }
 
-.tags {
+.detail-container-content.footer .tags {
 	box-sizing: inherit; 
 	-webkit-tap-highlight-color: transparent; 
 	outline: 0px; 
@@ -61,7 +61,7 @@
 	font-family: Roboto, Helvetica, sans-serif;
 }
 
-.tag {
+.detail-container-content.footer .tag {
 	box-sizing: inherit; 
 	-webkit-tap-highlight-color: transparent; 
 	outline: 0px; 
@@ -76,7 +76,7 @@
 	margin: 0px 2px;
 }
 
-.label {
+.detail-container-content.footer .label {
 	box-sizing: inherit; 
 	-webkit-tap-highlight-color: transparent; 
 	outline: 0px;
