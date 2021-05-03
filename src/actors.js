@@ -22,20 +22,33 @@ async function OnActorRequest(event) {
 		requestId: data.requestId,
 	}
 
-	let a = await game.actors.find(a => a.name === data.payload)
-	if (a) {
+	let character = game.user.character
+	if (!character) {
+		if (canvas.tokens.controlled.length < 1) {
+			ui.notifications.error("no character assigned or selected!!")
+			return
+		}
+		character = canvas.tokens.controlled[0].actor
+	}
+
+	if (character.items.find(a => a.name === data.payload)) {
 		response.payload = true
 	}
 	document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
 
 async function OnIncomingActor(event) {
-	let newActor = JSON.parse(event.detail)
-	log("new actor:", newActor)
-	game.actors.insert(newActor).then(() => {
-		log("created new actor")
-		ui.notifications.info("created " + newActor.name)
-	}).catch(() => {
-		ui.notifications.error("error creating actor")
-	})
+	let data = JSON.parse(event.detail)
+	log("new actor data:", data)
+	
+	let character = game.user.character
+	if (!character) {
+		if (canvas.tokens.controlled.length < 1) {
+			ui.notifications.error("no character assigned or selected!!")
+			return
+		}
+		character = canvas.tokens.controlled[0].actor
+	}
+
+	character.createEmbeddedEntity("OwnedItem", data)
 }
