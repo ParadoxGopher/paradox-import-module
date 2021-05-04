@@ -73,6 +73,5 @@ async function OnIncomingChar(event) {
 		character = canvas.tokens.controlled[0].actor
 	}
 
-	character.createEmbeddedEntity("OwnedItem", data)
-	ui.notifications.info("added "+data.name+" to "+character.name)
+	await character.createOwnedItem(data).then(() => ui.notifications.info("added "+data.name+" to "+character.name)).error(() => ui.notifications.error("could not create owned item"))
 }
