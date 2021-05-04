@@ -23,40 +23,56 @@ async function OnRequest(event) {
 		requestId: data.requestId,
 	}
 
-	if (!data.origin) return
-
-	let compName = game.settings.get("paradox-importer-module", "char-compendium-prefix") + " " + data.origin
-	let comp = game.packs.find(p => p.metadata.label === compName)
-
-	if (comp) {
-		let compIdx = await comp.getIndex()
-		response.payload = compIdx.some(s => s.name === data.payload)
+	let character = game.user.character
+	if (!character) {
+		if (canvas.tokens.controlled.length < 1) {
+			ui.notifications.error("no character assigned or selected!!")
+			return
+		}
+		character = canvas.tokens.controlled[0].actor
 	}
-	
-	log(response)
+
+	if (character.items.find(a => a.name === data.payload)) {
+		response.payload = true
+	}
 	document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
 
 async function OnIncomingChar(event) {
-	log("got event")
-	// TODO: implement storage
+	// log("got event")
+	// // TODO: implement storage
+	// let data = JSON.parse(event.detail)
+
+	// let itemOrigin = data.origin
+	// let itemData = data.item
+
+	// let newItem = await Item.create(itemData, { temporary: true })
+
+	// let compName = game.settings.get("paradox-importer-module", "char-compendium-prefix") + " " + itemOrigin
+	// let compId = game.packs.find(p => p.metadata.label === compName)
+
+	// if (!compId) {
+	// 	await CreateCompendium(compName, "Item", "dndbeyond-"+itemOrigin, "pxg-magicks")
+	// 	compId = game.packs.find(p => p.metadata.label === compName)
+	// }
+
+	// await UpsertInto(compId.collection, newItem)
+	
+	// log(newItem)
+	// // TODO: implement add to actor
+
 	let data = JSON.parse(event.detail)
-
-	let itemOrigin = data.origin
-	let itemData = data.item
-
-	let newItem = await Item.create(itemData, { temporary: true })
-
-	let compName = game.settings.get("paradox-importer-module", "char-compendium-prefix") + " " + itemOrigin
-	let compId = game.packs.find(p => p.metadata.label === compName)
-
-	if (!compId) {
-		await CreateCompendium(compName, "Item", "dndbeyond-"+itemOrigin, "pxg-magicks")
-		compId = game.packs.find(p => p.metadata.label === compName)
+	log("new actor data:", data)
+	
+	let character = game.user.character
+	if (!character) {
+		if (canvas.tokens.controlled.length < 1) {
+			ui.notifications.error("no character assigned or selected!!")
+			return
+		}
+		character = canvas.tokens.controlled[0].actor
 	}
 
-	await UpsertInto(compId.collection, newItem)
-	
-	log(newItem)
-	// TODO: implement add to actor
+	character.createEmbeddedEntity("OwnedItem", data)
+	ui.notifications.info("added "+data.name+" to "+character.name)
 }
