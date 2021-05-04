@@ -73,5 +73,12 @@ async function OnIncomingChar(event) {
 		character = canvas.tokens.controlled[0].actor
 	}
 
-	await character.createOwnedItem(data).then(() => ui.notifications.info("added "+data.name+" to "+character.name)).error(() => ui.notifications.error("could not create owned item"))
+	let item = character.items.find(a => a.name === data.payload)
+	if (item) {
+		data._id = item._id
+		await character.updateOwnedItem(data).then(() => ui.notifications.info("updated "+data.name+" for "+character.name))
+		return
+	}
+
+	await character.createOwnedItem(data).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
 }
