@@ -20,6 +20,16 @@ export default function init() {
 		choices: itemCompendii,
 	})
 
+	game.settings.register("paradox-importer-module", "monster-compendium", {
+		name: "Monster Compendium",
+		hint: "compendium to check for monster duplicates",
+		scope: "world",
+		config: true,
+		type: String,
+		isSelect: true,
+		choices: itemCompendii,
+	})
+
 	game.settings.register("paradox-importer-module", "item-compendium", {
 		name: "Items Compendium",
 		hint: "compendium to store items",

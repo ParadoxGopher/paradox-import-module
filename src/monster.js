@@ -24,8 +24,26 @@ async function OnMonsterRequest(event) {
     if (data.type !== "monster-request") return
     let dir = await CreateDirectory(MonstersTitle, "Actor")
     let exists = dir.children.some(d => d.content.some(m => m.name === data.payload))
+
+	let monsterComId = await game.settings.get("paradox-importer-module", "monster-compendium")
+	if (!monsterComId || monsterComId === "") {
+		ui.notifications.error("no monster compendium set")
+		log("monster-compendium is not set")
+		return
+	}
+	let monsterIdx = await game.packs.get(monsterComId).getIndex()
+
+	let response = { 
+		type: "monster-response", 
+		payload: {
+			actor: exists,
+			compendium: monsterIdx.some(m => m.name === data.payload) 
+		}, 
+		requestId: data.requestId 
+	}
+
     log("sending", exists)
-    document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify({ type: "monster-response", payload: exists, requestId: data.requestId }) }))
+    document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
 
 async function OnIncomingMonster(event) {
