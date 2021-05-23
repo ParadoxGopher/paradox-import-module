@@ -8,7 +8,12 @@ export default function init() {
 			return choices
 		}, {})
 
-	log(itemCompendii)
+	let actorCompendii = game.packs
+		.filter(p => p.entity === "Actor")
+		.reduce((choices, p) => {
+			choices[p.collection] = `[${p.metadata.package}] ${p.metadata.label}`
+			return choices
+		}, {})
 
 	game.settings.register("paradox-importer-module", "spell-compendium", {
 		name: "Spell Compendium",
@@ -27,7 +32,7 @@ export default function init() {
 		config: true,
 		type: String,
 		isSelect: true,
-		choices: itemCompendii,
+		choices: actorCompendii,
 	})
 
 	game.settings.register("paradox-importer-module", "item-compendium", {
