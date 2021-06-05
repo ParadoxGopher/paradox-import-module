@@ -39,28 +39,6 @@ async function OnRequest(event) {
 }
 
 async function OnIncomingChar(event) {
-	// log("got event")
-	// // TODO: implement storage
-	// let data = JSON.parse(event.detail)
-
-	// let itemOrigin = data.origin
-	// let itemData = data.item
-
-	// let newItem = await Item.create(itemData, { temporary: true })
-
-	// let compName = game.settings.get("paradox-importer-module", "char-compendium-prefix") + " " + itemOrigin
-	// let compId = game.packs.find(p => p.metadata.label === compName)
-
-	// if (!compId) {
-	// 	await CreateCompendium(compName, "Item", "dndbeyond-"+itemOrigin, "pxg-magicks")
-	// 	compId = game.packs.find(p => p.metadata.label === compName)
-	// }
-
-	// await UpsertInto(compId.collection, newItem)
-	
-	// log(newItem)
-	// // TODO: implement add to actor
-
 	let data = JSON.parse(event.detail)
 	log("new actor data:", data)
 	
@@ -73,7 +51,7 @@ async function OnIncomingChar(event) {
 		character = canvas.tokens.controlled[0].actor
 	}
 
-	let item = character.items.find(a => a.name === data.payload)
+	let item = character.items.find(a => a.name === data.name && a.type === data.type)
 	if (item) {
 		data._id = item._id
 		await character.updateOwnedItem(data).then(() => ui.notifications.info("updated "+data.name+" for "+character.name))
