@@ -58,5 +58,5 @@ async function OnIncomingChar(event) {
 		return
 	}
 
-	await character.createEmbeddedDocuments("Item", data).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
+	await character.createEmbeddedDocuments("Item", [data]).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
 }
