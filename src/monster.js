@@ -58,13 +58,13 @@ async function UpsertMonster(newMonster) {
     let monsterDir = await CreateDirectory(MonstersTitle, "Actor")
     let targetDir = await CreateDirectory(newMonster.data.details.type, "Actor", monsterDir._id)
     newMonster.folder = targetDir._id
-    const oldMonster = targetDir.content.find(m => m.name === newMonster.name)
+    const oldMonster = targetDir.content.find(m => m.name === newMonster.name && m.type === newMonster.type)
     if (oldMonster) {
         log("updating old monster", newMonster)
         newMonster._id = oldMonster._id
         newMonster.img = oldMonster.img
         await oldMonster.update(newMonster).then(() => {
-            oldMonster.createEmbeddedEntity("OwnedItem", items)
+            oldMonster.createEmbeddedDocument("Item", items)
             ui.notifications.info("[Monster] Updated: " + newMonster.name)
         }).catch(e => {
             log("failed updating monster", e)
@@ -74,13 +74,13 @@ async function UpsertMonster(newMonster) {
     } else {
         log("creating new monster", newMonster)
         await Actor.create(newMonster).then((created) => {
-			created.createEmbeddedEntity("OwnedItem", items)
+			created.createEmbeddedDocument("Item", items)
             ui.notifications.info("[Monster] Created: " + newMonster.name)
         }).catch(e => {
             log("failed creating monster", e)
             ui.notifications.error("[Monster] Failed creating: " + newMonster.name)
         })
-        created.createEmbeddedEntity("OwnedItem", items)
+        created.createEmbeddedDocument("Item", items)
 
         return created
     }

@@ -53,10 +53,10 @@ async function OnIncomingChar(event) {
 
 	let item = character.items.find(a => a.name === data.name && a.type === data.type)
 	if (item) {
-		data._id = item._id
-		await character.updateOwnedItem(data).then(() => ui.notifications.info("updated "+data.name+" for "+character.name))
+		item.update(data)
+		
 		return
 	}
 
-	await character.createOwnedItem(data).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
+	await character.createEmbeddedDocuments("Item", data).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
 }
