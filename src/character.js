@@ -55,10 +55,11 @@ function OnIncomingActorItem(event) {
 	if (item && data.replace) {
 		log("updating existing item", item)
 		item.update(itemData)
-		
-		return
-	}
+		ui.notifications.info("updated "+item.name+" for "+character.name)
 
-	log("creating new item")
-	character.createOwnedItem(itemData).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name))
+		return
+	} else {
+		log("creating new item")
+		character.createOwnedItem(itemData).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name))
+	}
 }
