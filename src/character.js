@@ -38,7 +38,7 @@ async function OnRequest(event) {
 	document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
 
-function OnIncomingActorItem(event) {
+async function OnIncomingActorItem(event) {
 	const data = JSON.parse(event.detail)
 	const itemData = data.payload
 	log("new actor item data:", itemData)
@@ -54,12 +54,19 @@ function OnIncomingActorItem(event) {
 	const item = character.items.find(a => a.name === itemData.name)
 	if (item && data.replace) {
 		log("updating existing item", item)
-		item.update(itemData)
+		const result = item.update(itemData)
+		log("updated", result)
 		ui.notifications.info("updated "+item.name+" for "+character.name)
 
 		return
 	} else {
 		log("creating new item")
-		character.createEmbeddedDocuments("Item", [itemData]).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name), (e) => log("error: ", e))
+		const created = await character.createEmbeddedDocuments("Item", [itemData])
+		if (!created) {
+			ui.notifications.error("could not create item")
+		} else {
+			log("created item", created)
+			ui.notifications.info("created "+itemData.name+" for "+character.name)
+		}
 	}
 }
