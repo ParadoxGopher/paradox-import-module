@@ -15,7 +15,7 @@ export default function init() {
 
 async function OnRequest(event) {
 	let data = JSON.parse(event.detail)
-	if (!data.type.match(/(spell-request|item-request|feat-request)/)) return
+	if (!data.type.match(/^(spell-request|item-request|feat-request)$/)) return
 	log("got request", data)
 	let response = {
 		type: "",

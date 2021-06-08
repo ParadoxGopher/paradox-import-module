@@ -1,7 +1,7 @@
 import { log } from "./utils/logger.js"
 import { CreateCompendium, UpsertInto } from "./utils/compendium.js"
 
-const CharEventType = "paradox-import:incoming:char"
+const ActorItemEventType = "paradox-import:incoming:actor_item"
 
 const RequestEventType = "paradox-import:request"
 const ResponseEventType = "paradox-import:response"
@@ -9,16 +9,16 @@ const ResponseEventType = "paradox-import:response"
 export default function init() {
 	log("initiating Items")
 
-	document.addEventListener(CharEventType, OnIncomingChar)
+	document.addEventListener(ActorItemEventType, OnIncomingActorItem)
 	document.addEventListener(RequestEventType, OnRequest)
 }
 
 async function OnRequest(event) {
 	let data = JSON.parse(event.detail)
-	if (data.type !== "char-request") return
-	log("got request", data)
+	if (data.type !== "actor_item-request") return
+	log("got actor_item-request request", data)
 	let response = {
-		type: "char-response",
+		type: "actor_item-response",
 		payload: false,
 		requestId: data.requestId,
 	}
@@ -38,11 +38,11 @@ async function OnRequest(event) {
 	document.dispatchEvent(new CustomEvent(ResponseEventType, { detail: JSON.stringify(response) }))
 }
 
-async function OnIncomingChar(event) {
-	let data = JSON.parse(event.detail)
-	log("new actor data:", data)
-	
-	let character = game.user.character
+async function OnIncomingActorItem(event) {
+	const data = JSON.parse(event.detail)
+	const itemData = data.payload
+	log("new actor item data:", itemData)
+	const character = game.user.character
 	if (!character) {
 		if (canvas.tokens.controlled.length < 1) {
 			ui.notifications.error("no character assigned or selected!!")
@@ -51,12 +51,12 @@ async function OnIncomingChar(event) {
 		character = canvas.tokens.controlled[0].actor
 	}
 
-	let item = character.items.find(a => a.name === data.name && a.type === data.type)
-	if (item) {
-		item.update(data)
+	const item = character.items.find(a => a.name === itemData.name)
+	if (item && data.replace) {
+		item.update(itemData)
 		
 		return
 	}
 
-	await character.createEmbeddedDocuments("Item", [data]).then(() => ui.notifications.info("added "+data.name+" to "+character.name))
+	await character.createEmbeddedDocuments("Item", [itemData]).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name))
 }
