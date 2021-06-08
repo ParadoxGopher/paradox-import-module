@@ -60,6 +60,6 @@ function OnIncomingActorItem(event) {
 		return
 	} else {
 		log("creating new item")
-		character.createOwnedItem(itemData).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name))
+		character.createOwnedItem(itemData).then(() => ui.notifications.info("added "+itemData.name+" to "+character.name), (e) => log("error: ", e))
 	}
 }
