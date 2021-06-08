@@ -59,7 +59,9 @@ async function OnIncomingActorItem(event) {
 		ui.notifications.info("updated "+item.name+" for "+character.name)
 
 		return
-	} else {
+	} 
+	
+	if (!item) {
 		log("creating new item")
 		const created = await character.createEmbeddedDocuments("Item", [itemData])
 		if (!created) {
