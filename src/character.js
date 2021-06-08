@@ -42,7 +42,7 @@ async function OnIncomingActorItem(event) {
 	const data = JSON.parse(event.detail)
 	const itemData = data.payload
 	log("new actor item data:", itemData)
-	const character = game.user.character
+	let character = game.user.character
 	if (!character) {
 		if (canvas.tokens.controlled.length < 1) {
 			ui.notifications.error("no character assigned or selected!!")
