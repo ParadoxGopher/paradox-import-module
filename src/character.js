@@ -63,6 +63,16 @@ async function OnIncomingActorItem(event) {
 	
 	if (!item) {
 		log("creating new item")
+
+		if (QuickInsert.filters.defaultFilters.length == 0) {
+			await QuickInsert.forceIndex()
+		}
+
+		let searchResults = QuickInsert.search(itemData.name)
+		if (searchResults.length > 0) {
+			itemData = await searchResults[0].get()
+		}
+
 		const created = await character.createEmbeddedDocuments("Item", [itemData])
 		if (!created) {
 			ui.notifications.error("could not create item")
