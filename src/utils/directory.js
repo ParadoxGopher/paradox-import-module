@@ -4,7 +4,7 @@ export async function CreateDirectory(name, type, parent = null) {
     log("searching for existing directory (name)", name)
     log("searching for existing directory (type)", type)
     log("searching for existing directory (parent)", parent)
-    let folder = game.folders.entities.find(f => f.name === name && f.type == type && f.data.parent === parent)
+    let folder = game.folders.find(f => f.name === name && f.type == type && f.data.parent === parent)
     log("found", folder)
     if (!folder) {
         log("creating folder")
