@@ -40,7 +40,7 @@ async function OnRequest(event) {
 
 async function OnIncomingActorItem(event) {
 	const data = JSON.parse(event.detail)
-	const itemData = data.payload
+	let itemData = data.payload
 	log("new actor item data:", itemData)
 	let character = game.user.character
 	if (!character) {
@@ -70,7 +70,9 @@ async function OnIncomingActorItem(event) {
 
 		let searchResults = QuickInsert.search(itemData.name)
 		if (searchResults.length > 0) {
-			itemData = await searchResults[0].get()
+			log("found", searchResults)
+			let foundItem = await searchResults[0].item.get()
+			itemData = foundItem.data
 		}
 
 		const created = await character.createEmbeddedDocuments("Item", [itemData])
