@@ -1,29 +1,28 @@
 import { log } from "./logger.js";
 
-export async function CreateDirectory(name, type, parent = null) {
-    log("searching for existing directory (name)", name)
-    log("searching for existing directory (type)", type)
-    log("searching for existing directory (parent)", parent)
+export function CreateDirectory(name, type, parent = null) {
+	log("searching for existing directory (name)", name)
+	log("searching for existing directory (type)", type)
+	log("searching for existing directory (parent)", parent)
 
-    let folder = null
+	let folder = null
 	if (parent) {
 		folder = parent.children.find(f => f.name == name && f.type == type)
-	}else {
+	} else {
 		folder = game.folders.find(f => f.name == name && f.type == type)
 	}
 
-    log("found", folder)
-    if (!folder) {
-        log("creating folder")
-        folder = await Folder.create(
-            {
-                name: name,
-                type: type,
-                parent: parent
-            }
-        )
-    }
-    //log("direcoty is set up")
+	log("found", folder)
+	if (!folder) {
+		folder = Folder.create(
+			{
+				name: name,
+				type: type,
+				parent: parent
+			}
+		)
+		log("created folder", folder)
+	}
 
-    return folder
+	return folder
 }
