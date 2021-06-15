@@ -55,8 +55,7 @@ async function OnIncomingMonster(event) {
 async function UpsertMonster(newMonster) {
     let items = newMonster.items
     newMonster.items = []
-    let monsterDir = CreateDirectory(MonstersTitle, "Actor")
-    let targetDir = CreateDirectory(newMonster.data.details.type, "Actor", monsterDir)
+    let targetDir = await CreateDirectory(newMonster.data.details.type, "Actor", MonstersTitle)
     newMonster.folder = targetDir.id
     const oldMonster = targetDir.content.find(m => m.name === newMonster.name && m.type === newMonster.type)
     if (oldMonster) {
