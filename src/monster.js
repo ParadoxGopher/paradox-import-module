@@ -63,7 +63,12 @@ async function UpsertMonster(newMonster) {
         newMonster.id = oldMonster.id
         newMonster.img = oldMonster.img
         await oldMonster.update(newMonster).then(() => {
-            oldMonster.createEmbeddedDocuments("Item", items)
+			const itemIds = oldMonster.items.reduce((a,c) => {
+                a.push(c.id)
+                return a
+            }, [])
+            await oldMonster.deleteEmbeddedDocuments("Item", itemIds)
+            await oldMonster.createEmbeddedDocuments("Item", items)
             ui.notifications.info("[Monster] Updated: " + newMonster.name)
         }).catch(e => {
             log("failed updating monster", e)
