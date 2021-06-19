@@ -71,8 +71,9 @@ async function OnIncomingActorItem(event) {
 		let searchResults = QuickInsert.search(itemData.name)
 		if (searchResults.length > 0) {
 			log("found", searchResults)
-			if (foundItem.name == itemData.name && foundItem.entityType == itemData.type) {
-				const foundItem = await searchResults[0].item.get()
+			const searchResultItem = searchResults[0].item
+			if (searchResultItem.name == itemData.name && searchResultItem.entityType == itemData.type) {
+				const foundItem = await searchResultItem.get()
 				itemData = foundItem.data
 			}
 		}
