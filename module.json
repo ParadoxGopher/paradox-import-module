@@ -1,30 +1,36 @@
 {
-    "name": "paradox-importer-module",
-    "title": "Paradox Importer: D&D Beyond Integration",
-    "description": "import your unlocked content from DnDBeyond",
-    "version": "0.2.3",
-    "minimumCoreVersion": "0.8.6",
-    "compatibleCoreVersion": "0.8.7",
-    "author": "Gerhard Wagner",
-    "authors": [
-        {
-            "name": "Gerhard Wagner",
-            "email": "info@gerhard-wagner.dev",
-            "url": "paradoxsolutions.gerhard-wagner.dev"
-        }
-    ],
-    "systems": [
-        "dnd5e"
-    ],
-    "styles": [
-        "./css/spell.css"
-    ],
-    "esmodules": [
-        "src/index.js"
-    ],
-    "packs": [],
-    "socket": true,
-    "url": "https://github.com/ParadoxGery/paradox-import-module",
-    "manifest": "https://raw.githubusercontent.com/ParadoxGery/paradox-import-module/master/module.json",
-    "download": "https://github.com/ParadoxGery/paradox-import-module/archive/master.zip"
+	"name": "paradox-importer-module",
+	"title": "Paradox Importer: D&D Beyond Integration",
+	"description": "import your unlocked content from DnDBeyond",
+	"version": "0.2.4",
+	"minimumCoreVersion": "0.8.6",
+	"compatibleCoreVersion": "0.8.7",
+	"author": "Gerhard Wagner",
+	"authors": [
+		{
+			"name": "Gerhard Wagner",
+			"email": "info@gerhard-wagner.dev",
+			"url": "paradoxsolutions.gerhard-wagner.dev"
+		}
+	],
+	"systems": [
+		"dnd5e"
+	],
+	"styles": [
+		"./css/spell.css"
+	],
+	"esmodules": [
+		"src/index.js"
+	],
+	"packs": [],
+	"dependencies": [
+		{
+			"name": "quick-insert",
+			"manifest": "https://gitlab.com/fvtt-modules-lab/quick-insert/-/jobs/artifacts/master/raw/module.json?job=build-module"
+		}
+	],
+	"socket": true,
+	"url": "https://github.com/ParadoxGery/paradox-import-module",
+	"manifest": "https://raw.githubusercontent.com/ParadoxGery/paradox-import-module/master/module.json",
+	"download": "https://github.com/ParadoxGery/paradox-import-module/archive/master.zip"
 }
