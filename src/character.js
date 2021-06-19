@@ -56,11 +56,15 @@ async function OnIncomingActorItem(event) {
 		log("updating existing item", item)
 		const result = item.update(itemData)
 		log("updated", result)
-		ui.notifications.info("updated "+item.name+" for "+character.name)
+		//ui.notifications.info("updated " + item.name + " for " + character.name)
 
 		return
-	} 
-	
+	}
+
+	if (item && !data.replace) {
+		const result = item.update({ data: { preparation: { prepared: itemData.data.preparation.prepared } } })
+	}
+
 	if (!item) {
 		log("creating new item")
 
@@ -83,7 +87,7 @@ async function OnIncomingActorItem(event) {
 			ui.notifications.error("could not create item")
 		} else {
 			log("created item", created)
-			ui.notifications.info("created "+itemData.name+" for "+character.name)
+			//ui.notifications.info("created " + itemData.name + " for " + character.name)
 		}
 	}
 }
