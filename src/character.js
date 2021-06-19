@@ -76,9 +76,10 @@ async function OnIncomingActorItem(event) {
 		if (searchResults.length > 0) {
 			log("found", searchResults)
 			const searchResultItem = searchResults[0].item
-			if (searchResultItem.name == itemData.name && searchResultItem.entityType == itemData.type) {
+			if (searchResultItem.name == itemData.name && searchResultItem.entityType == "Item") {
 				const foundItem = await searchResultItem.get()
 				itemData = foundItem.data
+				itemData.data.preparation.prepared = itemData.data.preparation.prepared
 			}
 		}
 
