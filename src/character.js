@@ -71,8 +71,10 @@ async function OnIncomingActorItem(event) {
 		let searchResults = QuickInsert.search(itemData.name)
 		if (searchResults.length > 0) {
 			log("found", searchResults)
-			let foundItem = await searchResults[0].item.get()
-			itemData = foundItem.data
+			if (foundItem.name == itemData.name && foundItem.entityType == itemData.type) {
+				const foundItem = await searchResults[0].item.get()
+				itemData = foundItem.data
+			}
 		}
 
 		const created = await character.createEmbeddedDocuments("Item", [itemData])

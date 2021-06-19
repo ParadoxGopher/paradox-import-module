@@ -2,9 +2,9 @@
     "name": "paradox-importer-module",
     "title": "Paradox Importer: D&D Beyond Integration",
     "description": "import your unlocked content from DnDBeyond",
-    "version": "0.1.25",
-    "minimumCoreVersion": "0.7.9",
-    "compatibleCoreVersion": "0.8.6",
+    "version": "0.1.26",
+    "minimumCoreVersion": "0.8.6",
+    "compatibleCoreVersion": "0.8.7",
     "author": "Gerhard Wagner",
     "authors": [
         {
