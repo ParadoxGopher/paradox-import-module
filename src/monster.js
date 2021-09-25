@@ -56,10 +56,16 @@ async function UpsertMonster(newMonster) {
     let items = newMonster.items
     newMonster.items = []
     let targetDir = await CreateDirectory(newMonster.data.details.type, "Actor", MonstersTitle)
-	const tokenName = newMonster.name+"."+newMonster.img.split(".").pop()
-	await fetch("http://localhost:1337/token?target="+encodeURIComponent(newMonster.img)+"&name="+tokenName)
-	newMonster.img = "token/"+ tokenName
-    newMonster.folder = targetDir.id
+
+	const proxyUrl = await game.settings.get("paradox-importer-module", "image-proxy")
+	if (proxyUrl) {		
+		const tokenName = newMonster.name+"."+newMonster.img.split(".").pop()
+		await fetch(proxyUrl+"/token?target="+encodeURIComponent(newMonster.img)+"&name="+tokenName)
+		const s3Host = await game.settings.get("paradox-importer-module", "s3-host")
+		newMonster.img = s3Host+"/"+ tokenName
+	}
+
+	newMonster.folder = targetDir.id
     const oldMonster = targetDir.content.find(m => m.name === newMonster.name)
     if (oldMonster) {
         log("updating old monster", newMonster)

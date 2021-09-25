@@ -63,4 +63,20 @@ export default function init() {
 		type: String,
 		default: "[dndbeyond]"
 	})
+
+	game.settings.register("paradox-importer-module", "s3-host", {
+		name: "s3 Host",
+		hint: "eg 'https://s3.host.com' without trailing /",
+		scope: "world",
+		config: true,
+		type: String
+	})
+
+	game.settings.register("paradox-importer-module", "image-proxy", {
+		name: "image proxy",
+		hint:"host to call to receive images for tokens",
+		scope: "world",
+		config: true,
+		type: String
+	})
 }
