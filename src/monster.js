@@ -56,7 +56,7 @@ async function UpsertMonster(newMonster) {
     let items = newMonster.items
     newMonster.items = []
     let targetDir = await CreateDirectory(newMonster.data.details.type, "Actor", MonstersTitle)
-	await fetch("localhost:1337/token?target="+encodeURIComponent(newMonster.img)+"&name="+newMonster.name+newMonster.img.split(".").pop())
+	await fetch("http://localhost:1337/token?target="+encodeURIComponent(newMonster.img)+"&name="+newMonster.name+newMonster.img.split(".").pop())
     newMonster.folder = targetDir.id
     const oldMonster = targetDir.content.find(m => m.name === newMonster.name)
     if (oldMonster) {
